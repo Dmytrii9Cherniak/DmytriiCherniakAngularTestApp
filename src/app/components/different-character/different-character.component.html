@@ -1,0 +1,45 @@
+<main class="differentCharacterBlock">
+  <h3 class="goBackBlock" (click)="goBack()">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 7H3.83L9.42 1.41L8 0L0 8L8 16L9.41 14.59L3.83 9H16V7Z"/>
+    </svg>
+    <div> Go Back </div>
+  </h3>
+
+  <div *ngIf="characterDetails">
+
+    <main class="charactersDetailsInfo">
+      <div class="image">
+        <img src="{{ characterDetails.image }}" alt="image">
+      </div>
+      <div class="characterName">
+        {{ characterDetails.name }}
+      </div>
+      <h3 class="informations"> Informations </h3>
+      <footer class="infoTable">
+          <div class="row">
+            <h5> Gender </h5>
+            <h5> {{ characterDetails.gender }} </h5>
+          </div>
+          <div class="row">
+            <h5> Status </h5>
+            <h5> {{ characterDetails.status }} </h5>
+          </div>
+          <div class="row">
+            <h5> Specie </h5>
+            <h5> {{ characterDetails.species }} </h5>
+          </div>
+          <div class="row">
+            <h5> Origin </h5>
+            <h5> {{ characterDetails.origin.name }} </h5>
+          </div>
+          <div class="row">
+            <h5> Type </h5>
+            <h5> {{ characterDetails.type || 'Unknown'}} </h5>
+          </div>
+      </footer>
+
+    </main>
+
+  </div>
+</main>
