@@ -14,7 +14,7 @@ export class DifferentCharacterComponent implements OnInit {
 
  constructor(private activatedRoute: ActivatedRoute, private charactersService: CharactersService) {}
 
- ngOnInit() {
+ ngOnInit(): void {
    this.activatedRoute.params.subscribe(params => {
      this.charactersService
        .getDifferentCharacter(params['id'])

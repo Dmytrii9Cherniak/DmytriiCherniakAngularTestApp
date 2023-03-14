@@ -27,19 +27,19 @@
 
     .inputBlock {
 
-      label {
+      .inputLabel {
         position: relative;
-      }
 
-      svg {
-        position: absolute;
-        left: 21px;
-        top: 0;
-        color: rgba(0, 0, 0, 0.54);
+        svg {
+          position: absolute;
+          left: 21px;
+          top: 0;
+          color: rgba(0, 0, 0, 0.54);
+        }
       }
 
       input {
-        height: 66px;
+        height: 56px;
         width: 100%;
         border: 1px solid rgba(0, 0, 0, 0.5);
         color: rgba(0, 0, 0, 0.5);
@@ -49,7 +49,10 @@
         font-weight: 400;
         font-size: 16px;
         line-height: 150%;
+        padding-right: 26px;
         margin-bottom: 15px;
+        padding-left: 48px;
+        box-sizing: border-box;
       }
 
       input::placeholder {
@@ -59,7 +62,10 @@
         font-weight: 400;
         font-size: 16px;
         line-height: 150%;
-        padding-left: 31px;
+      }
+
+      input:focus {
+        outline: none;
       }
     }
 

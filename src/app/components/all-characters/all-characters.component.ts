@@ -12,11 +12,11 @@ import { DifferentCharacter } from '../../models/differentCharacter';
 })
 export class AllCharactersComponent implements OnInit {
 
-  public characters: Observable<DifferentCharacter[]>
+  public characters: Observable<DifferentCharacter[]>;
 
   constructor(private charactersService: CharactersService, private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllCharacters();
   }
 
