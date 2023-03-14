@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {  Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CharactersModel } from '../models/charactersModel';
-import {DifferentCharacter} from "../models/differentCharacter";
+import { DifferentCharacter } from '../models/differentCharacter';
 
 @Injectable({
   providedIn: 'root'

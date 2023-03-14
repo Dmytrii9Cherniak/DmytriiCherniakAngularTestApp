@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AllCharactersRoutingModule } from './all-characters-routing.module';
 import { AllCharactersComponent } from './all-characters.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { AllCharactersComponent } from './all-characters.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     AllCharactersRoutingModule
   ]
 })
