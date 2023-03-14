@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharactersService } from '../../services/characters.service';
-import { DifferentCharacterModel } from '../../models/differentCharacterModel';
 
 @Component({
   selector: 'app-different-character',
@@ -10,7 +9,7 @@ import { DifferentCharacterModel } from '../../models/differentCharacterModel';
 })
 export class DifferentCharacterComponent implements OnInit {
 
- public characterDetails: DifferentCharacterModel;
+ public characterDetails: any;
 
  constructor(private activatedRoute: ActivatedRoute, private charactersService: CharactersService) {}
 

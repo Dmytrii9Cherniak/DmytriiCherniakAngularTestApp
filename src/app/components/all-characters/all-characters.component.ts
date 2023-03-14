@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
 import { CharactersModel } from '../../models/charactersModel';
 import { Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { DifferentCharacter } from '../../models/differentCharacter';
 
 @Component({
   selector: 'app-all-characters',
@@ -10,26 +12,26 @@ import { Router } from '@angular/router';
 })
 export class AllCharactersComponent implements OnInit {
 
-  public characters: CharactersModel
+  public characters: Observable<DifferentCharacter[]>
 
   constructor(private charactersService: CharactersService, private router: Router) {}
 
   ngOnInit() {
-    this.charactersService.getAllCharacters().subscribe(value => {
-      this.characters = value;
-    })
-    this.sort();
+    this.getAllCharacters();
   }
 
-  public sort() {
-    this.characters?.results.sort((a,b) => a.name.localeCompare(b.name));
-    setTimeout(() => {
-      console.log(this.characters?.results)
-    }, 1500)
+  public getAllCharacters(): void {
+    this.characters = this.charactersService
+      .getAllCharacters()
+      .pipe(map((response: CharactersModel) => {
+      return response.results.sort((a,b) => {
+        return a.name.localeCompare(b.name);
+      })
+    }));
   }
+
 
   public goToCharactersDetails(id: number): void {
-    console.log(id)
     this.router.navigate([`characters/${id}`])
   }
 

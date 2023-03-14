@@ -1,4 +1,4 @@
-export interface DifferentCharacterModel {
+export interface DifferentCharacter {
   id: number,
   name: string,
   status: string,

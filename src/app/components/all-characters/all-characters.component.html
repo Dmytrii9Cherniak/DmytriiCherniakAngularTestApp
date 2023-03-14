@@ -15,9 +15,11 @@
       </label>
     </div>
     <div class="fullCharactersList">
-        <div *ngFor="let character of characters?.results" class="differentCharacterItem" (click)="goToCharactersDetails(character.id)">
+        <div *ngFor="let character of (characters | async)"
+             class="differentCharacterItem"
+             (click)="goToCharactersDetails(character.id)">
           <div>
-            <img src="{{character.image}}" alt="characterImage">
+            <img src="{{ character.image }}" alt="characterImage">
           </div>
           <main>
             <h4 class="characterName"> {{ character.name }} </h4>

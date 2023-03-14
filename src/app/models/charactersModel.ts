@@ -1,4 +1,4 @@
-import { DifferentCharacterModel } from './differentCharacterModel';
+import { DifferentCharacter } from './differentCharacter';
 
 export interface CharactersModel {
   info: {
@@ -7,5 +7,5 @@ export interface CharactersModel {
     next: string,
     prev: string
   }
-  results: DifferentCharacterModel[];
+  results: DifferentCharacter[];
 }
