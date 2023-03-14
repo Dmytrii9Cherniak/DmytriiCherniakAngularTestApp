@@ -1,9 +1,11 @@
+@import "src/styles.scss";
+
 .allCharactersBlock {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   .charactersContainer {
     display: flex;
@@ -34,34 +36,26 @@
           position: absolute;
           left: 21px;
           top: 0;
-          color: rgba(0, 0, 0, 0.54);
+          color: $basicGrayColor;
         }
       }
 
       input {
         height: 56px;
         width: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.5);
-        color: rgba(0, 0, 0, 0.5);
+        border: 1px solid $basicGrayColor;
+        color: $basicGrayColor;
         border-radius: 8px;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 150%;
         padding-right: 26px;
         margin-bottom: 15px;
         padding-left: 48px;
         box-sizing: border-box;
+        @include setupFontValues(Roboto, normal, 400, 16px, 150%, unquote(""));
       }
 
       input::placeholder {
         border-radius: 8px;
-        font-family: Roboto, sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 150%;
+        @include setupFontValues(Roboto, normal, 400, 16px, 150%, unquote(""));
       }
 
       input:focus {
@@ -82,12 +76,17 @@
         height: 244px;
         left: 730px;
         top: 419px;
-        background: #FFFFFF;
+        background: $basicWhiteColor;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
         border-radius: 4px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+
+        &:hover {
+          transition: all 0.3s ease-in-out;
+          transform: scale(1.1);
+        }
 
         img {
           width: 240px;
@@ -96,21 +95,15 @@
         }
 
         .characterName {
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 30px;
+          @include setupFontValues(Roboto, normal, 500, 20px, 30px, 0.15px);
           display: flex;
           align-items: center;
-          letter-spacing: 0.15px;
           color: rgba(0, 0, 0, 0.87);
           mix-blend-mode: normal;
         }
 
         .characterSpecies {
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 21px;
-          letter-spacing: 0.25px;
+          @include setupFontValues(Roboto, normal, 400, 14px, 21px, 0.25px);
           color: rgba(0, 0, 0, 0.6);
           mix-blend-mode: normal;
         }

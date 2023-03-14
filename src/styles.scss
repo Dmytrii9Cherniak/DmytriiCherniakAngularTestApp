@@ -7,3 +7,16 @@
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
 }
+
+$basicGrayColor: rgba(0, 0, 0, 0.5);
+$basicRedColor: red;
+$basicWhiteColor: #FFFFFF;
+
+@mixin setupFontValues($fontFamily, $fontStyle, $fontWeight, $fontSize, $lineHeight, $letterSpacing) {
+  font-family: $fontFamily;
+  font-style: $fontStyle;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  letter-spacing: $letterSpacing;
+}
