@@ -70,10 +70,13 @@
       flex-wrap: wrap;
       justify-content: space-between;
       row-gap: 24px;
+      margin-bottom: 45px;
 
       .differentCharacterItem {
         width: 240px;
-        height: 244px;
+        max-height: 244px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         left: 730px;
         top: 419px;
         background: $basicWhiteColor;
