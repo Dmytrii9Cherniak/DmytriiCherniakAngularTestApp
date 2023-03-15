@@ -13,8 +13,7 @@ export class CharactersService {
   constructor(private httpClient: HttpClient) { }
 
   public getAllCharacters(name?: string): Observable<CharactersModel> {
-    const params = new HttpParams();
-    name ? params.set('name', name) : {};
+    const params = name ? new HttpParams().set('name', name) : {}
     return this.httpClient.get<CharactersModel>(`${environment.apiUrl}/character`, { params });
   }
 
