@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
 import { CharactersModel } from '../../models/charactersModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, Observable, startWith, switchMap, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { DifferentCharacter } from '../../models/differentCharacter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
