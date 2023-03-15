@@ -1,7 +1,8 @@
 @import "src/styles.scss";
 
 .allCharactersBlock {
-  width: 100%;
+  min-width: 100%;
+  width: auto;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -12,9 +13,12 @@
     justify-content: center;
     flex-direction: column;
     width: 1020px;
+    margin: 0 auto;
 
     .headerImg {
-      width: 100%;
+      //width: 100%;
+      min-width: 100%;
+      width: auto;
       height: auto;
       margin-top: 86px;
       margin-bottom: 16px;
@@ -22,7 +26,9 @@
       justify-content: center;
 
       img {
-        width: 600px;
+        max-width: 600px;
+        width: auto;
+        background-size: cover;
         height: 200px;
       }
     }
@@ -64,12 +70,13 @@
     }
 
     .fullCharactersList {
-      margin-top: 70px;
       width: 100%;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      column-gap: 20px;
       row-gap: 24px;
+      margin-top: 70px;
       margin-bottom: 45px;
 
       .differentCharacterItem {
@@ -123,4 +130,45 @@
     }
 
   }
+}
+
+@media screen and (max-width: 1050px){
+
+  .allCharactersBlock {
+    .charactersContainer {
+      padding-left: 13%;
+      padding-right: 13%;
+    }
+  }
+
+}
+
+@media screen and (max-width: 650px){
+
+  .allCharactersBlock {
+    .charactersContainer {
+      width: 650px;
+
+      .headerImg {
+        padding: 0 5% 0 5%;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      .inputBlock {
+        padding: 0 5% 0 5%;
+      }
+
+      .fullCharactersList {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 25px;
+      }
+
+    }
+  }
+
 }
