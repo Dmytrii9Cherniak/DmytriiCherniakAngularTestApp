@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
 import { CharactersModel } from '../../models/charactersModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, Observable, startWith, switchMap, tap } from 'rxjs';
 import { DifferentCharacter } from '../../models/differentCharacter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -42,16 +42,51 @@ export class AllCharactersComponent implements OnInit {
   }
 
   public detectInputChange(): void {
-    this.form.controls['searchCharacterInput'].valueChanges
-      .subscribe(item => {
+    const nameParam = this.activatedRoute.snapshot.queryParams['name'] || '';
+    this.form.controls['searchCharacterInput'].setValue(nameParam, { emitEvent: false });
+    let searchTerm = nameParam;
+
+    this.characters = this.form.controls['searchCharacterInput'].valueChanges.pipe(
+      startWith(searchTerm),
+      map((value: string) => value.trim()),
+      distinctUntilChanged(),
+      switchMap((value: string) => {
+        searchTerm = value;
+        const nameQueryParam = searchTerm.length ? { name: searchTerm } : undefined;
+        return this.charactersService.getAllCharacters(searchTerm).pipe(
+          map((response: CharactersModel) => {
+            const characters = response.results.sort((a, b) => a.name.localeCompare(b.name));
+            return searchTerm.length ? characters.filter((character: DifferentCharacter) => {
+              const name = character.name.trim().toLowerCase();
+              const searchTermLower = searchTerm.trim().toLowerCase();
+              return name.startsWith(searchTermLower) ||
+                searchTermLower.split('').every((char: string, index: number) => char === name.charAt(index));
+            }) : characters;
+          }),
+          tap(() => {
+            this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+              queryParams: nameQueryParam,
+            });
+          })
+        );
+      })
+    );
+
+    this.form.controls['searchCharacterInput'].valueChanges.pipe(
+      map((value: string) => value.trim()),
+      distinctUntilChanged(),
+      filter((value: string) => value === ''),
+      tap(() => {
         this.router.navigate([], {
           relativeTo: this.activatedRoute,
-          queryParams: item.length ? { name: item } : {},
-          queryParamsHandling: 'merge'
-        })
-        console.log(item)
-    })
+          queryParams: undefined,
+        });
+      })
+    ).subscribe();
   }
+
+
 
   public goToCharactersDetails(id: number): void {
     this.router.navigate([`characters/${id}`])
