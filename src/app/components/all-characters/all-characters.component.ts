@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
 import { CharactersModel } from '../../models/charactersModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, Observable, startWith, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, Observable, startWith, switchMap, tap } from 'rxjs';
 import { DifferentCharacter } from '../../models/differentCharacter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -56,8 +56,12 @@ export class AllCharactersComponent implements OnInit {
         return this.charactersService.getAllCharacters(searchTerm).pipe(
           map((response: CharactersModel) => {
             const characters = response.results.sort((a, b) => a.name.localeCompare(b.name));
-            return searchTerm.length ? characters.filter((character: DifferentCharacter) =>
-              character.name.toLowerCase().includes(searchTerm.toLowerCase())) : characters;
+            return searchTerm.length ? characters.filter((character: DifferentCharacter) => {
+              const name = character.name.trim().toLowerCase();
+              const searchTermLower = searchTerm.trim().toLowerCase();
+              return name.startsWith(searchTermLower) ||
+                searchTermLower.split('').every((char: string, index: number) => char === name.charAt(index));
+            }) : characters;
           }),
           tap(() => {
             this.router.navigate([], {
@@ -81,6 +85,8 @@ export class AllCharactersComponent implements OnInit {
       })
     ).subscribe();
   }
+
+
 
   public goToCharactersDetails(id: number): void {
     this.router.navigate([`characters/${id}`])
