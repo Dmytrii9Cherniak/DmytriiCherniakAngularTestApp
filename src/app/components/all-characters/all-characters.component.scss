@@ -127,7 +127,11 @@
 
       }
     }
-
+    .noItemsFoundAndIsLoading {
+      width: 100%;
+      text-align: center;
+      @include setupFontValues('Roboto', normal, 400, 48px, 56px, unquote(""));
+    }
   }
 }
 

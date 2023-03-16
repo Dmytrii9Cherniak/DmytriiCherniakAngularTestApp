@@ -14,7 +14,7 @@
         </svg>
       </label>
     </form>
-    <div class="fullCharactersList">
+    <div class="fullCharactersList" *ngIf="!loading">
         <div *ngFor="let character of (characters | async)"
              class="differentCharacterItem"
              (click)="goToCharactersDetails(character.id)">
@@ -26,6 +26,13 @@
             <h4 class="characterSpecies"> {{ character.species }} </h4>
           </main>
         </div>
+    </div>
+    <div *ngIf="loading" class="noItemsFoundAndIsLoading">
+      loading...
+    </div>
+
+    <div *ngIf="!loading && !response.length" class="noItemsFoundAndIsLoading">
+      No items found
     </div>
   </main>
 

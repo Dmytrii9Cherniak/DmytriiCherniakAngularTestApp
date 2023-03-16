@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from '../../services/characters.service';
-import { CharactersModel } from '../../models/charactersModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { catchError, finalize, map, Observable, of } from 'rxjs';
 import { DifferentCharacter } from '../../models/differentCharacter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -15,6 +14,8 @@ export class AllCharactersComponent implements OnInit {
 
   public form: FormGroup;
   public characters: Observable<DifferentCharacter[]>;
+  public loading: boolean = false;
+  public response: DifferentCharacter[] = [];
 
   constructor(
     private charactersService: CharactersService,
@@ -27,47 +28,38 @@ export class AllCharactersComponent implements OnInit {
     this.form = this.formBuilder.group({
       searchCharacterInput: ['']
     })
-    this.getAllCharacters();
-    this.detectInputChange();
+    this.gettingAndInputCharacters();
+    this.loading = true;
   }
 
-  public getAllCharacters(): void {
-    this.characters = this.charactersService
-      .getAllCharacters()
-      .pipe(map((response: CharactersModel) => {
-      return response.results.sort((a,b) => {
-        return a.name.localeCompare(b.name);
-      })
-    }));
-  }
-
-  public detectInputChange(): void {
+  public gettingAndInputCharacters(): void {
     const inputSearchItem = localStorage.getItem('inputCharacterValue') || '';
-
-    const filterCharacters = (value: string) => {
-      return this.charactersService.getAllCharacters(value).pipe(
-        map((response) => {
-          const characters = response.results.sort((a, b) => {
-            return a.name.localeCompare(b.name);
-          });
-          return value ? characters.filter((character: DifferentCharacter) => {
-            const name = character.name.trim().toLowerCase();
-            const searchInputItem = value.trim().toLowerCase();
-            return name.startsWith(searchInputItem) ||
-              searchInputItem.split('').every((char: string, index: number) => char === name.charAt(index));
-          }) : characters;
-        })
+    const filterCharacters = (value: string) =>
+      this.charactersService.getAllCharacters(value).pipe(
+        map(response =>
+          response.results
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .filter(character => {
+              const name = character.name.trim().toLowerCase();
+              const searchInputItem = value.trim().toLowerCase();
+              return (
+                !searchInputItem ||
+                name.startsWith(searchInputItem) ||
+                searchInputItem.split('').every((char, index) => char === name.charAt(index))
+              );
+            })
+        ),
+        catchError(() => of([]))
       );
-    };
-
-    this.form.controls['searchCharacterInput'].setValue(inputSearchItem);
-
-    this.form.controls['searchCharacterInput'].valueChanges.subscribe(value => {
+    const setCharacters = (value: string) => {
+      this.loading = true;
       localStorage.setItem('inputCharacterValue', value);
-      this.characters = filterCharacters(value);
-    });
-
-    this.characters = filterCharacters(inputSearchItem);
+      this.characters = filterCharacters(value).pipe(finalize(() => this.loading = false));
+      this.characters.subscribe(response => this.response = response);
+    };
+    this.form.controls['searchCharacterInput'].setValue(inputSearchItem);
+    setCharacters(inputSearchItem);
+    this.form.controls['searchCharacterInput'].valueChanges.subscribe(setCharacters);
   }
 
   public goToCharactersDetails(id: number): void {
